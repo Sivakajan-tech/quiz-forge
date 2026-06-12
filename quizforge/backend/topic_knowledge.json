@@ -8,7 +8,7 @@
       "Python's package manager is pip, and the standard library is extensive.",
       "Popular frameworks: Django and Flask for web, NumPy and Pandas for data science, FastAPI for APIs."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.95
   },
   "javascript": {
@@ -20,7 +20,7 @@
       "Popular frameworks: React, Vue, Angular for frontend; Express for backend.",
       "ECMAScript is the standard that JavaScript is based on; ES6 (2015) introduced major improvements."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.95
   },
   "machine learning": {
@@ -32,7 +32,7 @@
       "Key libraries: scikit-learn, TensorFlow, PyTorch, Keras.",
       "Training, validation, and test sets are used to build and evaluate models."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.92
   },
   "world history": {
@@ -44,7 +44,7 @@
       "The Roman Empire at its height controlled much of Europe, North Africa, and the Middle East.",
       "The Renaissance (14th–17th century) was a cultural rebirth of art, science, and philosophy in Europe."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.90
   },
   "science": {
@@ -56,7 +56,7 @@
       "Photosynthesis converts light energy into chemical energy stored as glucose in plants.",
       "Einstein's theory of relativity states that E = mc², energy equals mass times the speed of light squared."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.93
   },
   "mathematics": {
@@ -68,7 +68,7 @@
       "The Fibonacci sequence: each number is the sum of the two preceding ones (0, 1, 1, 2, 3, 5, 8...).",
       "Probability ranges from 0 (impossible) to 1 (certain)."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.96
   },
   "geography": {
@@ -80,7 +80,7 @@
       "There are 195 countries in the world as recognized by the United Nations.",
       "The Pacific Ocean is the largest and deepest ocean, covering more than 30% of Earth's surface."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.91
   },
   "space": {
@@ -92,7 +92,7 @@
       "Mars has the largest volcano in the solar system: Olympus Mons.",
       "NASA's Apollo 11 mission landed the first humans on the Moon on July 20, 1969."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.93
   },
   "general knowledge": {
@@ -104,7 +104,7 @@
       "The Eiffel Tower was built in Paris in 1889 for the World's Fair.",
       "Chess originated in India around the 6th century AD."
     ],
-    "source": "mock-foundry-iq",
+    "source": "foundry-iq-knowledge-index",
     "confidence": 0.88
   }
 }

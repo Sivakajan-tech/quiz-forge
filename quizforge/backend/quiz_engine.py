@@ -3,7 +3,7 @@ import os
 from groq import Groq
 from dotenv import load_dotenv
 from models import Question, AnswerOption, Difficulty
-from foundry_iq_mock import get_context
+from foundry_iq_service import get_context
 
 load_dotenv()
 

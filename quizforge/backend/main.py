@@ -15,9 +15,9 @@ from models import (
     ChatMessage,
 )
 from quiz_engine import generate_questions, generate_questions_from_context
-from foundry_iq_mock import list_supported_topics
+from foundry_iq_service import list_supported_topics, ingest_and_get_context
 from tutor_engine import generate_tutor_response, MAX_EXCHANGES
-from document_processor import extract_text_from_pdf, get_context_from_document
+from document_processor import extract_text_from_pdf
 
 app = FastAPI(title="QuizForge API", version="1.0.0")
 
@@ -101,7 +101,7 @@ async def start_quiz_from_upload(
     if not raw_text.strip():
         raise HTTPException(status_code=422, detail="Could not extract text from the provided content")
 
-    context = get_context_from_document(raw_text, source_name)
+    context = ingest_and_get_context(raw_text, source_name)
     if not context["grounded"]:
         raise HTTPException(status_code=422, detail=context.get("warning", "No content extracted"))
 
@@ -209,6 +209,9 @@ def chat_with_tutor(req: ChatRequest):
 
     if req.question_id not in session.answers:
         raise HTTPException(status_code=400, detail="Question not yet answered")
+
+    if session.answers[req.question_id] == question.correct_key:
+        raise HTTPException(status_code=400, detail="Tutor is only available for incorrect answers")
 
     qid_key = str(req.question_id)
     history = session.chat_histories.get(qid_key, [])
