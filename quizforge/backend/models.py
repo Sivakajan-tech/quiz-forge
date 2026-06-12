@@ -54,6 +54,22 @@ class AnswerResponse(BaseModel):
     difficulty_changed: bool = False
 
 
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
+
+class ChatRequest(BaseModel):
+    session_id: str
+    question_id: int
+    message: str
+
+
+class ChatResponse(BaseModel):
+    reply: str
+    messages: list[ChatMessage]
+
+
 class SessionState(BaseModel):
     session_id: str
     topic: str
@@ -62,3 +78,5 @@ class SessionState(BaseModel):
     answers: dict = {}
     score: int = 0
     total_answered: int = 0
+    context: dict = {}
+    chat_histories: dict = {}

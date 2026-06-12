@@ -3,7 +3,7 @@ import TopicSelector from "@/components/TopicSelector";
 import QuizCard from "@/components/QuizCard";
 import ExplanationPanel from "@/components/ExplanationPanel";
 import ScoreBoard from "@/components/ScoreBoard";
-import { fetchTopics, startQuiz, submitAnswer } from "@/lib/api";
+import { fetchTopics, startQuiz, startQuizFromUpload, submitAnswer } from "@/lib/api";
 
 const PHASE = { SELECT: "select", QUIZ: "quiz", DONE: "done" };
 
@@ -37,6 +37,24 @@ export default function Home() {
       setPhase(PHASE.QUIZ);
     } catch (e) {
       setError("Failed to generate quiz. Make sure the backend is running.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleStartFromUpload(params) {
+    setError(null);
+    setLoading(true);
+    try {
+      const data = await startQuizFromUpload(params);
+      setSession(data);
+      setCurrentIndex(0);
+      setResult(null);
+      setScore(0);
+      setCurrentDifficulty(data.difficulty);
+      setPhase(PHASE.QUIZ);
+    } catch (e) {
+      setError("Failed to generate quiz from uploaded content.");
     } finally {
       setLoading(false);
     }
@@ -83,7 +101,7 @@ export default function Home() {
             {error}
           </div>
         )}
-        <TopicSelector topics={topics} onStart={handleStart} loading={loading} />
+        <TopicSelector topics={topics} onStart={handleStart} onStartFromUpload={handleStartFromUpload} loading={loading} />
       </>
     );
   }
@@ -135,6 +153,8 @@ export default function Home() {
           isLast={currentIndex === session.questions.length - 1}
           difficultyChanged={result.difficulty_changed}
           newDifficulty={result.new_difficulty}
+          sessionId={session.session_id}
+          questionId={question.id}
         />
       )}
 

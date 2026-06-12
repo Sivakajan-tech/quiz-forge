@@ -1,4 +1,9 @@
-export default function ExplanationPanel({ result, onNext, isLast, difficultyChanged, newDifficulty }) {
+import { useState } from "react";
+import TutorChat from "@/components/TutorChat";
+
+export default function ExplanationPanel({ result, onNext, isLast, difficultyChanged, newDifficulty, sessionId, questionId }) {
+  const [showChat, setShowChat] = useState(false);
+
   return (
     <div className={`rounded-3xl border-2 p-6 w-full max-w-2xl mx-auto shadow-md ${
       result.correct
@@ -18,6 +23,19 @@ export default function ExplanationPanel({ result, onNext, isLast, difficultyCha
         <div className="mt-4 text-sm font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-2xl px-4 py-3">
           🎯 Difficulty adjusted to <span className="capitalize font-extrabold">{newDifficulty}</span> based on your performance
         </div>
+      )}
+
+      {!result.correct && !showChat && (
+        <button
+          onClick={() => setShowChat(true)}
+          className="mt-4 w-full border-2 border-indigo-300 text-indigo-700 py-2.5 rounded-2xl font-semibold text-base hover:bg-indigo-50 transition-colors"
+        >
+          🤖 Ask AI Tutor — "Why?"
+        </button>
+      )}
+
+      {showChat && (
+        <TutorChat sessionId={sessionId} questionId={questionId} />
       )}
 
       <button

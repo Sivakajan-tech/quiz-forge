@@ -1,5 +1,6 @@
 import uuid
-from fastapi import FastAPI, HTTPException
+from typing import Optional
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 
 from models import (
@@ -9,9 +10,14 @@ from models import (
     AnswerRequest,
     AnswerResponse,
     SessionState,
+    ChatRequest,
+    ChatResponse,
+    ChatMessage,
 )
-from quiz_engine import generate_questions
+from quiz_engine import generate_questions, generate_questions_from_context
 from foundry_iq_mock import list_supported_topics
+from tutor_engine import generate_tutor_response, MAX_EXCHANGES
+from document_processor import extract_text_from_pdf, get_context_from_document
 
 app = FastAPI(title="QuizForge API", version="1.0.0")
 
@@ -51,6 +57,7 @@ def start_quiz(req: QuizStartRequest):
         topic=req.topic,
         difficulty=req.difficulty,
         questions=questions,
+        context=context,
     )
     _sessions[session_id] = session
 
@@ -58,6 +65,63 @@ def start_quiz(req: QuizStartRequest):
         session_id=session_id,
         topic=req.topic,
         difficulty=req.difficulty,
+        questions=questions,
+        grounded=context["grounded"],
+        foundry_iq_confidence=context["confidence"],
+    )
+
+
+@app.post("/api/quiz/start-from-upload", response_model=QuizStartResponse)
+async def start_quiz_from_upload(
+    file: Optional[UploadFile] = File(None),
+    content_text: Optional[str] = Form(None),
+    difficulty: str = Form("medium"),
+    num_questions: int = Form(5),
+):
+    if not file and not content_text:
+        raise HTTPException(status_code=400, detail="Provide either a file or content_text")
+
+    if num_questions < 1 or num_questions > 10:
+        raise HTTPException(status_code=400, detail="num_questions must be between 1 and 10")
+
+    raw_text = ""
+    source_name = "uploaded document"
+
+    if file:
+        file_bytes = await file.read()
+        if file.filename.lower().endswith(".pdf"):
+            raw_text = extract_text_from_pdf(file_bytes)
+        else:
+            raw_text = file_bytes.decode("utf-8", errors="ignore")
+        source_name = file.filename or "uploaded document"
+    elif content_text:
+        raw_text = content_text
+        source_name = "pasted content"
+
+    if not raw_text.strip():
+        raise HTTPException(status_code=422, detail="Could not extract text from the provided content")
+
+    context = get_context_from_document(raw_text, source_name)
+    if not context["grounded"]:
+        raise HTTPException(status_code=422, detail=context.get("warning", "No content extracted"))
+
+    diff = Difficulty(difficulty)
+    questions, context = generate_questions_from_context(context, diff, num_questions)
+
+    session_id = str(uuid.uuid4())
+    session = SessionState(
+        session_id=session_id,
+        topic=source_name,
+        difficulty=diff,
+        questions=questions,
+        context=context,
+    )
+    _sessions[session_id] = session
+
+    return QuizStartResponse(
+        session_id=session_id,
+        topic=source_name,
+        difficulty=diff,
         questions=questions,
         grounded=context["grounded"],
         foundry_iq_confidence=context["confidence"],
@@ -131,3 +195,44 @@ def get_session(session_id: str):
         "total_answered": session.total_answered,
         "total_questions": len(session.questions),
     }
+
+
+@app.post("/api/quiz/chat", response_model=ChatResponse)
+def chat_with_tutor(req: ChatRequest):
+    session = _sessions.get(req.session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    question = next((q for q in session.questions if q.id == req.question_id), None)
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+
+    if req.question_id not in session.answers:
+        raise HTTPException(status_code=400, detail="Question not yet answered")
+
+    qid_key = str(req.question_id)
+    history = session.chat_histories.get(qid_key, [])
+
+    num_exchanges = len([m for m in history if m["role"] == "user"])
+    if num_exchanges >= MAX_EXCHANGES:
+        raise HTTPException(status_code=400, detail="Maximum conversation length reached")
+
+    facts = session.context.get("facts", [])
+    user_answer = session.answers[req.question_id]
+
+    reply = generate_tutor_response(
+        question=question,
+        user_answer=user_answer,
+        facts=facts,
+        conversation_history=history,
+        user_message=req.message,
+    )
+
+    history.append({"role": "user", "content": req.message})
+    history.append({"role": "assistant", "content": reply})
+    session.chat_histories[qid_key] = history
+
+    return ChatResponse(
+        reply=reply,
+        messages=[ChatMessage(role=m["role"], content=m["content"]) for m in history],
+    )

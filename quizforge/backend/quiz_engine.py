@@ -70,6 +70,16 @@ def generate_questions(topic: str, difficulty: Difficulty, num_questions: int = 
     return questions, context
 
 
+def generate_questions_from_context(context: dict, difficulty: Difficulty, num_questions: int = 5) -> tuple[list[Question], dict]:
+    topic = context.get("topic", "uploaded document")
+    prompt = _build_user_prompt(topic, difficulty, num_questions, context)
+
+    raw = _call_llm(prompt)
+    questions = _parse_questions(raw, difficulty)
+
+    return questions, context
+
+
 def _call_llm(user_prompt: str, retries: int = 2) -> str:
     for attempt in range(retries + 1):
         response = _client.chat.completions.create(
