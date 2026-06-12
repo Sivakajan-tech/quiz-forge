@@ -1,0 +1,110 @@
+{
+  "python": {
+    "facts": [
+      "Python is an interpreted, high-level, general-purpose programming language created by Guido van Rossum in 1991.",
+      "Python uses indentation to define code blocks instead of curly braces.",
+      "Python supports multiple programming paradigms: procedural, object-oriented, and functional.",
+      "Key built-in data structures include lists, tuples, sets, and dictionaries.",
+      "Python's package manager is pip, and the standard library is extensive.",
+      "Popular frameworks: Django and Flask for web, NumPy and Pandas for data science, FastAPI for APIs."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.95
+  },
+  "javascript": {
+    "facts": [
+      "JavaScript is a lightweight, interpreted scripting language primarily used for web development.",
+      "JavaScript runs in the browser and on the server (via Node.js).",
+      "It is single-threaded but uses an event loop to handle asynchronous operations.",
+      "Key concepts: closures, prototypal inheritance, promises, async/await.",
+      "Popular frameworks: React, Vue, Angular for frontend; Express for backend.",
+      "ECMAScript is the standard that JavaScript is based on; ES6 (2015) introduced major improvements."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.95
+  },
+  "machine learning": {
+    "facts": [
+      "Machine learning is a subset of AI where systems learn patterns from data without explicit programming.",
+      "Main types: supervised learning (labeled data), unsupervised learning (unlabeled data), reinforcement learning.",
+      "Common algorithms: linear regression, decision trees, random forests, neural networks, SVMs.",
+      "Overfitting occurs when a model learns training data too well and fails to generalize.",
+      "Key libraries: scikit-learn, TensorFlow, PyTorch, Keras.",
+      "Training, validation, and test sets are used to build and evaluate models."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.92
+  },
+  "world history": {
+    "facts": [
+      "World War I (1914–1918) was triggered by the assassination of Archduke Franz Ferdinand.",
+      "World War II (1939–1945) ended with the surrender of Germany and Japan.",
+      "The Industrial Revolution began in Britain in the late 18th century, transforming economies worldwide.",
+      "The Cold War (1947–1991) was a geopolitical tension between the USA and USSR.",
+      "The Roman Empire at its height controlled much of Europe, North Africa, and the Middle East.",
+      "The Renaissance (14th–17th century) was a cultural rebirth of art, science, and philosophy in Europe."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.90
+  },
+  "science": {
+    "facts": [
+      "The speed of light in a vacuum is approximately 299,792,458 meters per second.",
+      "DNA (deoxyribonucleic acid) carries genetic information in all living organisms.",
+      "Newton's three laws of motion describe the relationship between force and motion.",
+      "The periodic table organizes elements by atomic number and chemical properties.",
+      "Photosynthesis converts light energy into chemical energy stored as glucose in plants.",
+      "Einstein's theory of relativity states that E = mc², energy equals mass times the speed of light squared."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.93
+  },
+  "mathematics": {
+    "facts": [
+      "The Pythagorean theorem states: in a right triangle, a² + b² = c².",
+      "Pi (π) is an irrational number approximately equal to 3.14159.",
+      "Calculus was independently developed by Newton and Leibniz in the 17th century.",
+      "Prime numbers are integers greater than 1 divisible only by 1 and themselves.",
+      "The Fibonacci sequence: each number is the sum of the two preceding ones (0, 1, 1, 2, 3, 5, 8...).",
+      "Probability ranges from 0 (impossible) to 1 (certain)."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.96
+  },
+  "geography": {
+    "facts": [
+      "Earth has 7 continents: Africa, Antarctica, Asia, Australia, Europe, North America, South America.",
+      "The Amazon River in South America carries more water than any other river on Earth.",
+      "Mount Everest, at 8,849 meters, is the highest point on Earth.",
+      "The Sahara Desert in Africa is the world's largest hot desert.",
+      "There are 195 countries in the world as recognized by the United Nations.",
+      "The Pacific Ocean is the largest and deepest ocean, covering more than 30% of Earth's surface."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.91
+  },
+  "space": {
+    "facts": [
+      "The Milky Way galaxy contains an estimated 100–400 billion stars.",
+      "Light from the Sun takes approximately 8 minutes and 20 seconds to reach Earth.",
+      "The Big Bang theory describes the origin of the universe approximately 13.8 billion years ago.",
+      "A black hole is a region of spacetime where gravity is so strong that nothing can escape it.",
+      "Mars has the largest volcano in the solar system: Olympus Mons.",
+      "NASA's Apollo 11 mission landed the first humans on the Moon on July 20, 1969."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.93
+  },
+  "general knowledge": {
+    "facts": [
+      "The Great Wall of China stretches over 13,000 miles and was built over many centuries.",
+      "The human body has 206 bones in adulthood.",
+      "Shakespeare wrote 37 plays and 154 sonnets.",
+      "The Internet was invented in the late 1960s as ARPANET by the US Department of Defense.",
+      "The Eiffel Tower was built in Paris in 1889 for the World's Fair.",
+      "Chess originated in India around the 6th century AD."
+    ],
+    "source": "mock-foundry-iq",
+    "confidence": 0.88
+  }
+}
